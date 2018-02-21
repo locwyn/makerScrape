@@ -1,3 +1,4 @@
+import twython
 from twython import Twython
 from twython import TwythonStreamer
 
@@ -20,4 +21,4 @@ class MyStreamer(TwythonStreamer):
         
 stream = MyStreamer(APP_KEY, APP_SECRET,
                     ACCESS_TOKEN, ACCESS_SECRET)
-stream.statuses.filter(track='twitter')        
+stream.statuses.filter(track='maker')        
