@@ -10,7 +10,7 @@ ACCESS_SECRET = 'cfCMYG8815czjkRljOo1HAvg09pvu9GPyFVMmfKZOI4XD'
 class MyStreamer(TwythonStreamer):
     def on_success(self, data):
         if 'text' in data:
-            print(data['text'])
+            print(data)
 
     def on_error(self, status_code, data):
         print(status_code)
