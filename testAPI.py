@@ -1,4 +1,5 @@
 import tweepy
+import datetime
 from tweepy import OAuthHandler
 from tweepy import Stream
 from tweepy.streaming import StreamListener
@@ -21,8 +22,9 @@ api = tweepy.API(auth)
 class MyListener(StreamListener):
 
   def on_data(self, data):
+    jsonFile = datetime.datetime.now().strftime('%Y_%d_%m') + '_maker,json'
     try:
-      with open('maker.json', 'a') as f:
+      with open(jsonFile, 'a') as f:
         f.write(data)
         return True
     except BaseException as e:
