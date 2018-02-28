@@ -22,7 +22,7 @@ api = tweepy.API(auth)
 class MyListener(StreamListener):
 
   def on_data(self, data):
-    jsonFile = datetime.datetime.now().strftime('%Y_%d_%m') + '_maker,json'
+    jsonFile = datetime.datetime.now().strftime('%Y_%m_%d') + '_maker.json'
     try:
       with open(jsonFile, 'a') as f:
         f.write(data)
