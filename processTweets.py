@@ -1,7 +1,8 @@
 import json
 
-with open('2018_27_02_maker,json') as f:
+with open('2018_02_28_maker.json') as f:
   tweets = f.readlines()
 
-tjson = json.loads(tweets[0])
-print(tjson['id'])
+for x in tweets:
+  tjson = json.loads(x)
+  print(tjson['id'])
