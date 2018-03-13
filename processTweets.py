@@ -5,4 +5,4 @@ with open('2018_02_28_maker.json') as f:
 
 for x in tweets:
   tjson = json.loads(x)
-  print(tjson['id'])
+  print(tjson['created_at'])
