@@ -1,5 +1,20 @@
 import json
 
+#def checkDatabaseForTweet(tweetID):
+#  return
+
+#def loadTweetIntoDatabase(tweetJSON):
+#  return
+
+#def checkForRetweet(tweetJSON):
+#  return
+
+#need to set a minimum threshold for popularity
+#def checkFollowerCount(tweetJSON):
+#  return
+
+
+
 with open('2018_03_14_maker.json') as f:
   tweets = f.readlines()
 
