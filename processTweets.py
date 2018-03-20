@@ -1,7 +1,19 @@
 import json
+import mysql.connector
 
-#def checkDatabaseForTweet(tweetID):
-#  return
+def databaseConnect():
+  return mysql.connector.connect(user='pycon', password='fuzzywuzzy', host='localhost', database='makerTweets')
+
+def checkDatabaseForTweet(tweetID):
+  cnx = databaseConnect()
+  cursor = cnx.cursor()
+  tweetQuery = "SELECT tweetID FROM tweets WHERE tweetID = 12345"
+  cursor.execute(tweetQuery)
+  results = 0
+  for (tweetID) in cursor:
+    results += 1
+  cnx.close() 
+  return results
 
 #def loadTweetIntoDatabase(tweetJSON):
 #  return
@@ -34,3 +46,4 @@ for y in tweets:
     count += 1
 
 print(count)
+checkDatabaseForTweet(12345)
