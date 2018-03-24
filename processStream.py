@@ -23,7 +23,7 @@ class MyListener(StreamListener):
 
   def on_data(self, data):
     jsonFile = datetime.datetime.now().strftime('%Y_%m_%d') + '_maker.json'
-    while (time.time() - self.time)  self.limit:
+    while (time.time() - self.time) < self.limit:
       try:
         with open(jsonFile, 'a') as f:
           f.write(data)
