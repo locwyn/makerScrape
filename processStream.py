@@ -24,7 +24,6 @@ class MyListener(StreamListener):
   def on_data(self, data):
     jsonFile = filePath + datetime.datetime.now().strftime('%Y_%m_%d') + '_maker.json'
     while (time.time() - self.time) < self.limit:
-      print(str(time.time() - self.time) + ' ' + str(self.limit))
       try:
         with open(jsonFile, 'a') as f:
           f.write(data)
@@ -40,4 +39,4 @@ class MyListener(StreamListener):
 startTime = time.time()
 twitter_stream = Stream(auth, MyListener(startTime))
 twitter_stream.filter(track=['#maker'])
-
+twitter_stream.disconnect()
