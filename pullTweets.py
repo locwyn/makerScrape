@@ -32,6 +32,7 @@ class MyListener(StreamListener):
   def on_error(self, status):
     print(status)
     return True
+
 startTime = time.time()
 twitter_stream = Stream(auth, MyListener(startTime))
 twitter_stream.filter(track=['#maker'])
