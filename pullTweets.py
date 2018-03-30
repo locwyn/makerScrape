@@ -1,6 +1,8 @@
 import tweepy
 import datetime
 import time
+import json
+import jsonpickle
 from tweepy import OAuthHandler
 from tweepy import Stream
 from tweepy.streaming import StreamListener
@@ -39,5 +41,7 @@ filePath = '/home/gbk/data/makerScrape/'
 #twitter_stream.filter(track=['#maker'])
 #twitter_stream.disconnect()
 
+jFile = datetime.datetime.now().strftime('%Y_%m_%d') + '_maker.json'
 for tweet in tweepy.Cursor(api.search,q='#maker').items(10):
-  print('Tweet by: @' + tweet.user.screen_name)
+  with open(jFile, 'a') as f:
+    f.write(jsonpickle.encode(tweet._json, unpicklable=False) + '\n')
