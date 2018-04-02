@@ -18,11 +18,20 @@ def checkDatabaseForTweet(tweetID):
 #def loadTweetIntoDatabase(tweetJSON):
 #  return
 
+#def loadUserIntoDatabase(tweetJSON):
+#  return
+
 #def checkForRetweet(tweetJSON):
+#  return
+
+#def checkForEnglish(tweetJSON):
 #  return
 
 #need to set a minimum threshold for popularity
 #def checkFollowerCount(tweetJSON):
+#  return
+
+#def collectHashtags(tweetJSON):
 #  return
 
 
