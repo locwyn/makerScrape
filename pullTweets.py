@@ -42,6 +42,6 @@ filePath = '/home/gbk/data/makerScrape/'
 #twitter_stream.disconnect()
 
 jFile = datetime.datetime.now().strftime('%Y_%m_%d') + '_maker.json'
-for tweet in tweepy.Cursor(api.search,q='#maker').items(10):
+for tweet in tweepy.Cursor(api.search,q='#maker').items(100):
   with open(jFile, 'a') as f:
     f.write(jsonpickle.encode(tweet._json, unpicklable=False) + '\n')
