@@ -34,25 +34,33 @@ def checkDatabaseForTweet(tweetID):
 #def collectHashtags(tweetJSON):
 #  return
 
+def pullTweetData(tweetJSON):
+  tweetID = tweetJSON['id']
+  tweetText = tweetJSON['text']
+  userID = tweetJSON['user']['id']
+  createdAt = tweetJSON['created_at']
+  retweetCount = tweetJSON['retweet_count']
+  print(','.join([str(tweetID), str(userID), createdAt, str(retweetCount)]))
+
+def pullMakerData(tweetJSON):
+  userID = tweetJSON['user']['id']
+  userName = tweetJSON['user']['name']
+  userScreenName = tweetJSON['user']['screen_name']
+  location = tweetJSON['user']['location']
+  description = tweetJSON['user']['description']
+  followersCount = tweetJSON['user']['followers_count']
+  friendsCount = tweetJSON['user']['friends_count']
+  createdAt = tweetJSON['user']['created_at']
+  print(','.join([str(userID), userName, userScreenName])) 
+  print(','.join([location, str(followersCount), str(friendsCount)]))
 
 
-with open('2018_03_14_maker.json') as f:
-  tweets = f.readlines()
+def runTests():
+  with open('2018_04_02_maker.json') as f:
+    tweets = f.readlines()
+  for y in tweets:
+    tweetJSON = json.loads(y)
+    pullMakerData(tweetJSON)
 
-count = 0
-"""
-for x in tweets:
-  tjson = json.loads(x)
-  if tjson['user']['followers_count'] >= 2000:  
-    try:
-      tjson['retweeted_status']
-    except KeyError:    
-      count += 1
-"""
-for y in tweets:
-#  tjson = json.loads(y)
-  if 'retweeted_status' in y:
-    count += 1
-
-print(count)
-checkDatabaseForTweet(12345)
+#checkDatabaseForTweet(12345)
+runTests()
