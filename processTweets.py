@@ -54,13 +54,23 @@ def pullMakerData(tweetJSON):
   print(','.join([str(userID), userName, userScreenName])) 
   print(','.join([location, str(followersCount), str(friendsCount)]))
 
+def pullHashtagData(tweetJSON):
+  numHashtags = len(tweetJSON['entities']['hashtags'])
+  hashtags = []
+  if numHashtags == 0:
+    print('NONE')
+  else:
+    for x in range(0, numHashtags):
+      hashtags.append(tweetJSON['entities']['hashtags'][x]['text'])
+    print(','.join(hashtags))
 
 def runTests():
   with open('2018_04_02_maker.json') as f:
     tweets = f.readlines()
   for y in tweets:
     tweetJSON = json.loads(y)
-    pullMakerData(tweetJSON)
+#    pullMakerData(tweetJSON)
+    pullHashtagData(tweetJSON)
 
 #checkDatabaseForTweet(12345)
 runTests()
