@@ -1,8 +1,9 @@
 import json
 import mysql.connector
+import credentials
 
 def databaseConnect():
-  return mysql.connector.connect(user='pycon', password='fuzzywuzzy', host='localhost', database='makerTweets')
+  return mysql.connector.connect(user=dbUser, password=dbPassword, host=dbHost, database='makerTweets')
 
 def checkDatabaseForTweet(tweetID):
   cnx = databaseConnect()
