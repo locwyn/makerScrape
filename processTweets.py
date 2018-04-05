@@ -65,7 +65,7 @@ def pullHashtagData(tweetJSON):
     print(','.join(hashtags))
 
 def runTests():
-  with open('2018_04_02_maker.json') as f:
+  with open('/home/gbk/data/makerScrape/2018_04_04_maker.json') as f:
     tweets = f.readlines()
   for y in tweets:
     tweetJSON = json.loads(y)
