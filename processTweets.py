@@ -21,8 +21,11 @@ def loadTestingData(tweetJSON):
   userID = tweetJSON['user']['id']
   cnx = databaseConnect()
   cursor = cnx.cursor()
-  tweetQuery = "INSERT INTO testing (id, tweetID, userID) VALUES (NULL, " + str(tweetID) + ", " + str(userID) + ");"
-  cursor.execute(tweetQuery)
+  tweetQuery = ("INSERT INTO testing "
+                "(id, tweetID, userID) "
+                "VALUES (%s, %s, %s)")
+  values = (tweetID, userID)
+  cursor.execute(NULL, tweetQuery, values)
   cnx.close()
 
 #def loadTweetIntoDatabase(tweetJSON):
