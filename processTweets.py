@@ -1,6 +1,6 @@
 import json
 import mysql.connector
-import credentials
+from credentials import *
 
 def databaseConnect():
   return mysql.connector.connect(user=dbUser, password=dbPassword, host=dbHost, database='makerTweets')
@@ -8,13 +8,22 @@ def databaseConnect():
 def checkDatabaseForTweet(tweetID):
   cnx = databaseConnect()
   cursor = cnx.cursor()
-  tweetQuery = "SELECT tweetID FROM tweets WHERE tweetID = 12345"
+  tweetQuery = "SELECT tweetID FROM tweets WHERE tweetID = " + str(tweetID)
   cursor.execute(tweetQuery)
   results = 0
   for (tweetID) in cursor:
     results += 1
   cnx.close() 
   return results
+
+def loadTestingData(tweetJSON):
+  tweetID = tweetJSON['id']
+  userID = tweetJSON['user']['id']
+  cnx = databaseConnect()
+  cursor = cnx.cursor()
+  tweetQuery = "INSERT INTO testing (id, tweetID, userID) VALUES (NULL, " + str(tweetID) + ", " + str(userID) + ");"
+  cursor.execute(tweetQuery)
+  cnx.close()
 
 #def loadTweetIntoDatabase(tweetJSON):
 #  return
@@ -66,12 +75,12 @@ def pullHashtagData(tweetJSON):
     print(','.join(hashtags))
 
 def runTests():
-  with open('/home/gbk/data/makerScrape/2018_04_04_maker.json') as f:
+  with open('2018_04_02_maker.json') as f:
     tweets = f.readlines()
   for y in tweets:
     tweetJSON = json.loads(y)
 #    pullMakerData(tweetJSON)
-    pullHashtagData(tweetJSON)
+    loadTestingData(tweetJSON)
 
-#checkDatabaseForTweet(12345)
+#print(checkDatabaseForTweet(12345))
 runTests()
