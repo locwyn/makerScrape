@@ -8,10 +8,10 @@ def databaseConnect():
 def checkDatabaseForTweet(tweetID):
   cnx = databaseConnect()
   cursor = cnx.cursor()
-  tweetQuery = "SELECT tweetID FROM tweets WHERE tweetID = " + str(tweetID)
+  tweetQuery = "SELECT tweetID FROM testing WHERE tweetID = " + str(tweetID)
   cursor.execute(tweetQuery)
   results = 0
-  for (tweetID) in cursor:
+  for x in cursor:
     results += 1
   cnx.close() 
   return results
@@ -80,12 +80,16 @@ def pullHashtagData(tweetJSON):
     print(','.join(hashtags))
 
 def runTests():
-  with open('2018_04_06_maker.json') as f:
+  with open('2018_04_10_maker.json') as f:
     tweets = f.readlines()
   for y in tweets:
     tweetJSON = json.loads(y)
 #    pullMakerData(tweetJSON)
-    loadTestingData(tweetJSON)
+    if checkDatabaseForTweet(tweetJSON['id']) == 0:
+      loadTestingData(tweetJSON)
+      print("BooYa!")
+    else:
+      print("Nada")
 
-#print(checkDatabaseForTweet(12345))
+#print(checkDatabaseForTweet(982383049898971141))
 runTests()
