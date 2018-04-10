@@ -19,14 +19,15 @@ def checkDatabaseForTweet(tweetID):
 def loadTestingData(tweetJSON):
   tweetID = tweetJSON['id']
   userID = tweetJSON['user']['id']
-  n = None
+#  n = None
   cnx = databaseConnect()
   cursor = cnx.cursor()
   tweetQuery = ("INSERT INTO testing "
-                "(id, tweetID, userID) "
-                "VALUES (%s, %s, %s)")
-  values = (n, tweetID, userID)
+                "(tweetID, userID) "
+                "VALUES (%s, %s)")
+  values = (tweetID, userID)
   cursor.execute(tweetQuery, values)
+  cnx.commit()
   cnx.close()
 
 #def loadTweetIntoDatabase(tweetJSON):
@@ -79,7 +80,7 @@ def pullHashtagData(tweetJSON):
     print(','.join(hashtags))
 
 def runTests():
-  with open('2018_04_02_maker.json') as f:
+  with open('2018_04_06_maker.json') as f:
     tweets = f.readlines()
   for y in tweets:
     tweetJSON = json.loads(y)
