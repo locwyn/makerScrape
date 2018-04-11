@@ -55,9 +55,6 @@ def loadUserIntoDatabase(tweetJSON):
   cnx.commit()
   cnx.close()
 
-#def checkForRetweet(tweetJSON):
-#  return
-
 #def checkForEnglish(tweetJSON):
 #  return
 
@@ -108,8 +105,9 @@ def runTests():
   for y in tweets:
     tweetJSON = json.loads(y)
 #    pullMakerData(tweetJSON)
-    if checkDatabaseForTweet(tweetJSON['id']) == 0:
-      loadTestingData(tweetJSON)
+#    if checkDatabaseForTweet(tweetJSON['id']) == 0:
+#      loadTestingData(tweetJSON)
+    if tweetJSON.get('retweeted_status'):
       print("BooYa!")
     else:
       print("Nada")
