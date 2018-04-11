@@ -30,11 +30,30 @@ def loadTestingData(tweetJSON):
   cnx.commit()
   cnx.close()
 
-#def loadTweetIntoDatabase(tweetJSON):
-#  return
+def loadTweetIntoDatabase(tweetJSON):
+  values = pullTweetData(tweetJSON)
+  cnx = databaseConnect()
+  cursor = cnx.cursor()
+  tweetQuery = ("INSERT INTO tweets "
+                "(tweetID, tweetText, user_id, "
+                "created_at, retweet_count) "
+                "VALUES (%s, %s, %s, %s, %s)")
+  cursor.execute(tweetQuery, values)
+  cnx.commit()
+  cnx.close()
 
-#def loadUserIntoDatabase(tweetJSON):
-#  return
+def loadUserIntoDatabase(tweetJSON):
+  values = pullMakerData(tweetJSON)
+  cnx = databaseConnect()
+  cursor = cnx.cursor()
+  tweetQuery = ("INSERT INTO makers "
+                "(user_id, user_name, user_screen_name, "
+                "location, description, followers_count, "
+                "friends_count, created_at) "
+                "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
+  cursor.execute(tweetQuery, values)
+  cnx.commit()
+  cnx.close()
 
 #def checkForRetweet(tweetJSON):
 #  return
