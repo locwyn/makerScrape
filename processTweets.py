@@ -55,7 +55,9 @@ def pullTweetData(tweetJSON):
   userID = tweetJSON['user']['id']
   createdAt = tweetJSON['created_at']
   retweetCount = tweetJSON['retweet_count']
-  print(','.join([str(tweetID), str(userID), createdAt, str(retweetCount)]))
+  tweetData = (tweetID, tweetText, userID, createdAt,
+               retweetCount)
+  return tweetData
 
 def pullMakerData(tweetJSON):
   userID = tweetJSON['user']['id']
@@ -66,9 +68,11 @@ def pullMakerData(tweetJSON):
   followersCount = tweetJSON['user']['followers_count']
   friendsCount = tweetJSON['user']['friends_count']
   createdAt = tweetJSON['user']['created_at']
-  print(','.join([str(userID), userName, userScreenName])) 
-  print(','.join([location, str(followersCount), str(friendsCount)]))
-
+  makerData = (userID, userName, userScreenName, location,
+               description, followersCount, freindsCount,
+               createdAt)
+  return makerData
+  
 def pullHashtagData(tweetJSON):
   numHashtags = len(tweetJSON['entities']['hashtags'])
   hashtags = []
