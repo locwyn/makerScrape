@@ -55,8 +55,11 @@ def loadUserIntoDatabase(tweetJSON):
   cnx.commit()
   cnx.close()
 
-#def checkForEnglish(tweetJSON):
-#  return
+def checkForEnglish(tweetJSON):
+  if tweetJSON['lang'] == "en":
+    return True
+  else:
+    return False
 
 #need to set a minimum threshold for popularity
 #def checkFollowerCount(tweetJSON):
@@ -108,9 +111,10 @@ def runTests():
 #    if checkDatabaseForTweet(tweetJSON['id']) == 0:
 #      loadTestingData(tweetJSON)
     if tweetJSON.get('retweeted_status'):
-      print("BooYa!")
+      pass
     else:
-      print("Nada")
+      if checkForEnglish(tweetJSON):
+        print('Yep Yep Yep!')
 
 #print(checkDatabaseForTweet(982383049898971141))
 runTests()
