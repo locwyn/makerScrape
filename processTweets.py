@@ -8,7 +8,7 @@ def databaseConnect():
 def checkDatabaseForTweet(tweetID):
   cnx = databaseConnect()
   cursor = cnx.cursor()
-  tweetQuery = "SELECT tweetID FROM testing WHERE tweetID = " + str(tweetID)
+  tweetQuery = "SELECT tweetID FROM tweets WHERE tweetID = " + str(tweetID)
   cursor.execute(tweetQuery)
   results = 0
   for x in cursor:
@@ -16,6 +16,18 @@ def checkDatabaseForTweet(tweetID):
   cnx.close() 
   return results
 
+def checkDatabaseForMaker(userID):
+  cnx = databaseConnect()
+  cursor = cnx.cursor()
+  tweetQuery = "SELECT user_id FROM makers WHERE user_id = " + str(userID)
+  cursor.execute(tweetQuery)
+  results = 0
+  for x in cursor:
+    results += 1
+  cnx.close() 
+  return results
+
+"""
 def loadTestingData(tweetJSON):
   tweetID = tweetJSON['id']
   userID = tweetJSON['user']['id']
@@ -29,31 +41,34 @@ def loadTestingData(tweetJSON):
   cursor.execute(tweetQuery, values)
   cnx.commit()
   cnx.close()
+"""
 
 def loadTweetIntoDatabase(tweetJSON):
-  values = pullTweetData(tweetJSON)
-  cnx = databaseConnect()
-  cursor = cnx.cursor()
-  tweetQuery = ("INSERT INTO tweets "
-                "(tweetID, tweetText, user_id, "
-                "created_at, retweet_count) "
-                "VALUES (%s, %s, %s, %s, %s)")
-  cursor.execute(tweetQuery, values)
-  cnx.commit()
-  cnx.close()
+  if checkDatabaseForTweet(tweetJSON['id']) == 0:
+    values = pullTweetData(tweetJSON)
+    cnx = databaseConnect()
+    cursor = cnx.cursor()
+    tweetQuery = ("INSERT INTO tweets "
+                  "(tweetID, tweetText, user_id, "
+                  "created_at, retweet_count) "
+                  "VALUES (%s, %s, %s, %s, %s)")
+    cursor.execute(tweetQuery, values)
+    cnx.commit()
+    cnx.close()
 
 def loadUserIntoDatabase(tweetJSON):
-  values = pullMakerData(tweetJSON)
-  cnx = databaseConnect()
-  cursor = cnx.cursor()
-  tweetQuery = ("INSERT INTO makers "
-                "(user_id, user_name, user_screen_name, "
-                "location, description, followers_count, "
-                "friends_count, created_at) "
-                "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
-  cursor.execute(tweetQuery, values)
-  cnx.commit()
-  cnx.close()
+  if checkDatabaseForMaker(tweetJSON['user']['id']) == 0:
+    values = pullMakerData(tweetJSON)
+    cnx = databaseConnect()
+    cursor = cnx.cursor()
+    tweetQuery = ("INSERT INTO makers "
+                  "(user_id, user_name, user_screen_name, "
+                  "location, description, followers_count, "
+                  "friends_count, created_at) "
+                  "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
+    cursor.execute(tweetQuery, values)
+    cnx.commit()
+    cnx.close()
 
 def checkForEnglish(tweetJSON):
   if tweetJSON['lang'] == "en":
@@ -114,7 +129,8 @@ def runTests():
       pass
     else:
       if checkForEnglish(tweetJSON):
-        print('Yep Yep Yep!')
+        loadTweetIntoDatabase(tweetJSON)
+        loadMakerIntoDatabase(tweetJSON)
 
 #print(checkDatabaseForTweet(982383049898971141))
 runTests()
