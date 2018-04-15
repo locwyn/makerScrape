@@ -3,7 +3,9 @@ import mysql.connector
 from credentials import *
 
 def databaseConnect():
-  return mysql.connector.connect(user=dbUser, password=dbPassword, host=dbHost, database='makerTweets')
+  return mysql.connector.connect(user=dbUser, password=dbPassword, 
+           host=dbHost, database='makerTweets', charset='utf8mb4',
+           collation='utf8mb4_unicode_ci')
 
 def checkDatabaseForTweet(tweetID):
   cnx = databaseConnect()
@@ -103,7 +105,7 @@ def pullMakerData(tweetJSON):
   friendsCount = tweetJSON['user']['friends_count']
   createdAt = tweetJSON['user']['created_at']
   makerData = (userID, userName, userScreenName, location,
-               description, followersCount, freindsCount,
+               description, followersCount, friendsCount,
                createdAt)
   return makerData
   
@@ -130,7 +132,7 @@ def runTests():
     else:
       if checkForEnglish(tweetJSON):
         loadTweetIntoDatabase(tweetJSON)
-        loadMakerIntoDatabase(tweetJSON)
+        loadUserIntoDatabase(tweetJSON)
 
 #print(checkDatabaseForTweet(982383049898971141))
 runTests()
