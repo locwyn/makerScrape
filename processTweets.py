@@ -40,22 +40,6 @@ def checkDatabaseForHashtag(tag):
   cnx.close() 
   return results
 
-"""
-def loadTestingData(tweetJSON):
-  tweetID = tweetJSON['id']
-  userID = tweetJSON['user']['id']
-#  n = None
-  cnx = databaseConnect()
-  cursor = cnx.cursor()
-  tweetQuery = ("INSERT INTO testing "
-                "(tweetID, userID) "
-                "VALUES (%s, %s)")
-  values = (tweetID, userID)
-  cursor.execute(tweetQuery, values)
-  cnx.commit()
-  cnx.close()
-"""
-
 def loadTweetIntoDatabase(tweetJSON):
   if checkDatabaseForTweet(tweetJSON['id']) == 0:
     values = pullTweetData(tweetJSON)
@@ -90,6 +74,16 @@ def loadHashtagIntoDatabase(tag):
   tweetQuery = ("INSERT INTO hashtags "
                 "(tags, total) "
                 "VALUES (%s, %s)")
+  cursor.execute(tweetQuery, values)
+  cnx.commit()
+  cnx.close()
+  
+def updateHashtagTotals(tag):
+  cnx = databaseConnect()
+  cursor = cnx.cursor()
+  tweetQuery = ("UPDATE hastags SET "
+                "total = total + 1 "
+                "WHERE tags = " + tag)
   cursor.execute(tweetQuery, values)
   cnx.commit()
   cnx.close()
@@ -131,15 +125,20 @@ def pullMakerData(tweetJSON):
                createdAt)
   return makerData
   
-def pullHashtagData(tweetJSON):
+def processHashtagData(tweetJSON):
   numHashtags = len(tweetJSON['entities']['hashtags'])
   hashtags = []
   if numHashtags == 0:
     print('NONE')
   else:
     for x in range(0, numHashtags):
-      hashtags.append(tweetJSON['entities']['hashtags'][x]['text'])
-    print(','.join(hashtags))
+      tag = lower(tweetJSON['entities']['hashtags'][x]['text'])
+      if checkDatabaseForHashtag(tag) == 0:
+        loadHashtagIntoDatabase(tag)
+        print('LOAD')
+      else:
+        updateHashtagTotals(tag)
+        print('UPDATE')
 
 def runTests():
   with open('2018_04_10_maker.json') as f:
@@ -153,8 +152,9 @@ def runTests():
       pass
     else:
       if checkForEnglish(tweetJSON):
-        loadTweetIntoDatabase(tweetJSON)
-        loadUserIntoDatabase(tweetJSON)
+        #loadTweetIntoDatabase(tweetJSON)
+        #loadUserIntoDatabase(tweetJSON)
+        processHashtagData(tweetJSON)
 
 #print(checkDatabaseForTweet(982383049898971141))
 runTests()
