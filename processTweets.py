@@ -29,6 +29,17 @@ def checkDatabaseForMaker(userID):
   cnx.close() 
   return results
 
+def checkDatabaseForHashtag(tag):
+  cnx = databaseConnect()
+  cursor = cnx.cursor()
+  tweetQuery = "SELECT tags FROM hashtags WHERE tags = " + tag
+  cursor.execute(tweetQuery)
+  results = 0
+  for x in cursor:
+    results += 1
+  cnx.close() 
+  return results
+
 """
 def loadTestingData(tweetJSON):
   tweetID = tweetJSON['id']
@@ -71,6 +82,17 @@ def loadUserIntoDatabase(tweetJSON):
     cursor.execute(tweetQuery, values)
     cnx.commit()
     cnx.close()
+   
+def loadHashtagIntoDatabase(tag):
+  values = (tag, 1)
+  cnx = databaseConnect()
+  cursor = cnx.cursor()
+  tweetQuery = ("INSERT INTO hashtags "
+                "(tags, total) "
+                "VALUES (%s, %s)")
+  cursor.execute(tweetQuery, values)
+  cnx.commit()
+  cnx.close()
 
 def checkForEnglish(tweetJSON):
   if tweetJSON['lang'] == "en":
