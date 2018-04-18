@@ -32,7 +32,7 @@ def checkDatabaseForMaker(userID):
 def checkDatabaseForHashtag(tag):
   cnx = databaseConnect()
   cursor = cnx.cursor()
-  tweetQuery = "SELECT tags FROM hashtags WHERE tags = " + tag
+  tweetQuery = "SELECT id FROM hashtags WHERE tags = \'" + tag + "\'"
   cursor.execute(tweetQuery)
   results = 0
   for x in cursor:
@@ -81,10 +81,10 @@ def loadHashtagIntoDatabase(tag):
 def updateHashtagTotals(tag):
   cnx = databaseConnect()
   cursor = cnx.cursor()
-  tweetQuery = ("UPDATE hastags SET "
+  tweetQuery = ("UPDATE hashtags SET "
                 "total = total + 1 "
-                "WHERE tags = " + tag)
-  cursor.execute(tweetQuery, values)
+                "WHERE tags = \'" + tag + "\'")
+  cursor.execute(tweetQuery)
   cnx.commit()
   cnx.close()
 
@@ -129,32 +129,27 @@ def processHashtagData(tweetJSON):
   numHashtags = len(tweetJSON['entities']['hashtags'])
   hashtags = []
   if numHashtags == 0:
-    print('NONE')
+    pass
   else:
     for x in range(0, numHashtags):
-      tag = lower(tweetJSON['entities']['hashtags'][x]['text'])
+      tag = tweetJSON['entities']['hashtags'][x]['text'].lower()
       if checkDatabaseForHashtag(tag) == 0:
         loadHashtagIntoDatabase(tag)
-        print('LOAD')
       else:
         updateHashtagTotals(tag)
-        print('UPDATE')
-
+     
 def runTests():
-  with open('2018_04_10_maker.json') as f:
+  with open('2018_04_18_maker.json') as f:
     tweets = f.readlines()
   for y in tweets:
     tweetJSON = json.loads(y)
-#    pullMakerData(tweetJSON)
-#    if checkDatabaseForTweet(tweetJSON['id']) == 0:
-#      loadTestingData(tweetJSON)
     if tweetJSON.get('retweeted_status'):
       pass
     else:
       if checkForEnglish(tweetJSON):
-        #loadTweetIntoDatabase(tweetJSON)
-        #loadUserIntoDatabase(tweetJSON)
+        loadTweetIntoDatabase(tweetJSON)
+        loadUserIntoDatabase(tweetJSON)
         processHashtagData(tweetJSON)
 
-#print(checkDatabaseForTweet(982383049898971141))
+#print(checkDatabaseForHashtag('minis'))
 runTests()
