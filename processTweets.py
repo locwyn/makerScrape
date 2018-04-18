@@ -138,8 +138,8 @@ def processHashtagData(tweetJSON):
       else:
         updateHashtagTotals(tag)
      
-def runTests():
-  with open('2018_04_18_maker.json') as f:
+def runTests(fileName):
+  with open(fileName) as f:
     tweets = f.readlines()
   for y in tweets:
     tweetJSON = json.loads(y)
@@ -152,4 +152,6 @@ def runTests():
         processHashtagData(tweetJSON)
 
 #print(checkDatabaseForHashtag('minis'))
-runTests()
+filePath = '/home/gbk/data/makerScrape/'
+fileName = filePath + '2018_04_17_maker.json'
+runTests(fileName)
