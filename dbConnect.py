@@ -1,5 +1,11 @@
 from mysql.connector import (connection)
+from credentials import *
 
-cnx = connection.MySQLConnection(user='pycon', password='fuzzywuzzy', host='localhost', database='makerTweets')
+def databaseConnect():
+  return mysql.connector.connect(user=dbUser, password=dbPassword, 
+           host=dbHost, database='makerTweets', charset='utf8mb4',
+           collation='utf8mb4_unicode_ci')
+
+cnx = databaseConnect()
 
 cnx.close()
