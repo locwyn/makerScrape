@@ -10,12 +10,12 @@ def databaseConnect():
 
 def writeErrorLog(e):
   errorFile = datetime.datetime.now().strftime('%Y_%m_%d') + '_error.log'
-    try:
-      with open(errorFile, 'a') as f:
-        f.write(str(e))
-    except BaseException as e:
-      with open(errorFile, 'a') as f:
-        f.write("Unable to write error")
+  try:
+    with open(errorFile, 'a') as f:
+      f.write(str(e) + '\n')
+  except BaseException as e:
+    with open(errorFile, 'a') as f:
+      f.write("Unable to write error\n")
 
 try:
   cnx = databaseConnect()
