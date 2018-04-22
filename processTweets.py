@@ -153,5 +153,5 @@ def runTests(fileName):
 
 #print(checkDatabaseForHashtag('minis'))
 filePath = '/home/gbk/data/makerScrape/'
-fileName = filePath + '2018_04_17_maker.json'
+fileName = filePath + '2018_04_15_maker.json'
 runTests(fileName)
