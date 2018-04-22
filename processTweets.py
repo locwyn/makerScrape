@@ -1,4 +1,5 @@
 import json
+import datetime
 import mysql.connector
 from credentials import *
 
@@ -11,11 +12,14 @@ def checkDatabaseForTweet(tweetID):
   cnx = databaseConnect()
   cursor = cnx.cursor()
   tweetQuery = "SELECT tweetID FROM tweets WHERE tweetID = " + str(tweetID)
-  cursor.execute(tweetQuery)
-  results = 0
-  for x in cursor:
-    results += 1
-  cnx.close() 
+  try:
+    cursor.execute(tweetQuery)
+    results = 0
+    for x in cursor:
+      results += 1
+    cnx.close()
+  except mysql.connector.Error as e:
+    writeErrorLog(e)
   return results
 
 def checkDatabaseForMaker(userID):
@@ -137,7 +141,16 @@ def processHashtagData(tweetJSON):
         loadHashtagIntoDatabase(tag)
       else:
         updateHashtagTotals(tag)
-     
+
+def writeErrorLog(e):
+  errorFile = datetime.datetime.now().strftime('%Y_%m_%d') + '_error.log'
+    try:
+      with open(errorFile, 'a') as f:
+        f.write(str(e))
+    except BaseException as e:
+      with open(errorFile, 'a') as f:
+        f.write("Unable to write error")
+        
 def runTests(fileName):
   with open(fileName) as f:
     tweets = f.readlines()
