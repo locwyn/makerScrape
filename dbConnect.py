@@ -1,4 +1,5 @@
 from mysql.connector import (connection)
+import datetime
 from credentials import *
 
 def databaseConnect():
@@ -8,8 +9,10 @@ def databaseConnect():
 try:
   cnx = databaseConnect()
 except mysql.connector.Error as e:
-  print("Error Code: " + str(e.errno))
-  print("SQLSTATE Value: " + e.sqlstate)
-  print("Error Message: " + e.msg)
-  print("Error: " + e)
+  errorFile = datetime.datetime.now().strftime('%Y_%m_%d') + '_error.log'
+    try:
+      with open(errorFile, 'a') as f:
+        f.write(str(e))
+    except BaseException as e:
+      print("Error on_data: %s" % str(e))
 cnx.close()
