@@ -9,17 +9,18 @@ def databaseConnect():
            collation='utf8mb4_unicode_ci')
 
 def writeErrorLog(e):
-
+  errorFile = datetime.datetime.now().strftime('%Y_%m_%d') + '_error.log'
+    try:
+      with open(errorFile, 'a') as f:
+        f.write(str(e))
+    except BaseException as e:
+      with open(errorFile, 'a') as f:
+        f.write("Unable to write error")
 
 try:
   cnx = databaseConnect()
   cnx.close()
 except mysql.connector.Error as e:
-  errorFile = datetime.datetime.now().strftime('%Y_%m_%d') + '_error.log'
-  try:
-    with open(errorFile, 'a') as f:
-      f.write(str(e))
-  except BaseException as e:
-    print("Error on_data: %s" % str(e))
+  writeErrorLog(e)
 
 
