@@ -2,6 +2,7 @@
 import os
 import sys
 import time
+import datetime
 
 def checkForNewErrorLog(fileName):
   if os.path.isfile(fileName):
@@ -10,5 +11,5 @@ def checkForNewErrorLog(fileName):
     print("No, New Logs")
 
 if __name__ == "__main__":
-  fileName = 
+  fileName = datetime.datetime.now().strftime('%Y_%m_%d') + '_error.log'
   checkForNewErrorLog(fileName)
