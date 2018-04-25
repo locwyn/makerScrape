@@ -1,0 +1,1 @@
+1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'SELECT tweetID FROM tweets WHERE tweetID = 988930823926710277' at line 1

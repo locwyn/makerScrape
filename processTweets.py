@@ -60,7 +60,7 @@ def checkDatabaseForHashtag(tag):
 
 def loadTweetIntoDatabase(tweetJSON):
   selectQuery = "SELECT tweetID FROM tweets WHERE tweetID = " + str(tweetJSON['id'])
-  if checkDatabaseForTweet(selectQuery) == 0:
+  if checkDatabaseForItem(selectQuery) == 0:
     values = pullTweetData(tweetJSON)
     cnx = databaseConnect()
     cursor = cnx.cursor()
@@ -159,12 +159,12 @@ def processHashtagData(tweetJSON):
 
 def writeErrorLog(e):
   errorFile = datetime.datetime.now().strftime('%Y_%m_%d') + '_error.log'
-    try:
-      with open(errorFile, 'a') as f:
-        f.write(str(e))
-    except BaseException as e:
-      with open(errorFile, 'a') as f:
-        f.write("Unable to write error")
+  try:
+    with open(errorFile, 'a') as f:
+      f.write(str(e))
+  except BaseException as e:
+    with open(errorFile, 'a') as f:
+      f.write("Unable to write error")
         
 def runTests(fileName):
   with open(fileName) as f:
@@ -181,5 +181,5 @@ def runTests(fileName):
 
 #print(checkDatabaseForHashtag('minis'))
 filePath = '/home/gbk/data/makerScrape/'
-fileName = filePath + '2018_04_15_maker.json'
+fileName = filePath + '2018_04_25_maker.json'
 runTests(fileName)
