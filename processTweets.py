@@ -136,7 +136,9 @@ def processHashtagData(tweetJSON):
         updateHashtagTotals(tag)
 
 def writeErrorLog(e):
-  errorFile = datetime.datetime.now().strftime('%Y_%m_%d') + '_error.log'
+  filePath = '/home/gbk/data/makerScrape/logs/'
+  errorFile = filePath + datetime.datetime.now().strftime('%Y_%m_%d') + 
+              '_error.log'
   try:
     with open(errorFile, 'a') as f:
       f.write(str(e))
