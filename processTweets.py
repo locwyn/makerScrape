@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import json
 import datetime
 import mysql.connector
@@ -7,6 +8,19 @@ def databaseConnect():
   return mysql.connector.connect(user=dbUser, password=dbPassword, 
            host=dbHost, database='makerTweets', charset='utf8mb4',
            collation='utf8mb4_unicode_ci')
+
+def checkDatabaseForItem(selectQuery):
+  cnx = databaseConnect()
+  cursor = cnx.cursor()
+  try:
+    cursor.execute(selectQuery)
+    results = 0
+    for x in cursor:
+      results += 1
+    cnx.close()
+  except mysql.connector.Error as e:
+    writeErrorLog(e)
+  return results
 
 def checkDatabaseForTweet(tweetID):
   cnx = databaseConnect()
@@ -45,7 +59,8 @@ def checkDatabaseForHashtag(tag):
   return results
 
 def loadTweetIntoDatabase(tweetJSON):
-  if checkDatabaseForTweet(tweetJSON['id']) == 0:
+  selectQuery = "SELECT tweetID FROM tweets WHERE tweetID = " + str(tweetJSON['id'])
+  if checkDatabaseForTweet(selectQuery) == 0:
     values = pullTweetData(tweetJSON)
     cnx = databaseConnect()
     cursor = cnx.cursor()
