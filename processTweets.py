@@ -22,42 +22,6 @@ def checkDatabaseForItem(selectQuery):
     writeErrorLog(e)
   return results
 
-def checkDatabaseForTweet(tweetID):
-  cnx = databaseConnect()
-  cursor = cnx.cursor()
-  tweetQuery = "SELECT tweetID FROM tweets WHERE tweetID = " + str(tweetID)
-  try:
-    cursor.execute(tweetQuery)
-    results = 0
-    for x in cursor:
-      results += 1
-    cnx.close()
-  except mysql.connector.Error as e:
-    writeErrorLog(e)
-  return results
-
-def checkDatabaseForMaker(userID):
-  cnx = databaseConnect()
-  cursor = cnx.cursor()
-  tweetQuery = "SELECT user_id FROM makers WHERE user_id = " + str(userID)
-  cursor.execute(tweetQuery)
-  results = 0
-  for x in cursor:
-    results += 1
-  cnx.close() 
-  return results
-
-def checkDatabaseForHashtag(tag):
-  cnx = databaseConnect()
-  cursor = cnx.cursor()
-  tweetQuery = "SELECT id FROM hashtags WHERE tags = \'" + tag + "\'"
-  cursor.execute(tweetQuery)
-  results = 0
-  for x in cursor:
-    results += 1
-  cnx.close() 
-  return results
-
 def loadTweetIntoDatabase(tweetJSON):
   selectQuery = "SELECT tweetID FROM tweets WHERE tweetID = " + str(tweetJSON['id'])
   if checkDatabaseForItem(selectQuery) == 0:
@@ -68,12 +32,16 @@ def loadTweetIntoDatabase(tweetJSON):
                   "(tweetID, tweetText, user_id, "
                   "created_at, retweet_count) "
                   "VALUES (%s, %s, %s, %s, %s)")
-    cursor.execute(tweetQuery, values)
-    cnx.commit()
-    cnx.close()
-
+    try:
+      cursor.execute(tweetQuery, values)
+      cnx.commit()
+      cnx.close()
+    except mysql.connector.Error as e:
+      writeErrorLog(e)
+      
 def loadUserIntoDatabase(tweetJSON):
-  if checkDatabaseForMaker(tweetJSON['user']['id']) == 0:
+  selectQuery = "SELECT user_id FROM makers WHERE user_id = " + str(tweetJSON['user']['id'])
+  if checkDatabaseForItem(selectQuery) == 0:
     values = pullMakerData(tweetJSON)
     cnx = databaseConnect()
     cursor = cnx.cursor()
@@ -82,10 +50,13 @@ def loadUserIntoDatabase(tweetJSON):
                   "location, description, followers_count, "
                   "friends_count, created_at) "
                   "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
-    cursor.execute(tweetQuery, values)
-    cnx.commit()
-    cnx.close()
-   
+    try:
+      cursor.execute(tweetQuery, values)
+      cnx.commit()
+      cnx.close()
+    except mysql.connector.Error as e:
+      writeErrorLog(e)
+    
 def loadHashtagIntoDatabase(tag):
   values = (tag, 1)
   cnx = databaseConnect()
@@ -93,20 +64,26 @@ def loadHashtagIntoDatabase(tag):
   tweetQuery = ("INSERT INTO hashtags "
                 "(tags, total) "
                 "VALUES (%s, %s)")
-  cursor.execute(tweetQuery, values)
-  cnx.commit()
-  cnx.close()
-  
+  try:
+    cursor.execute(tweetQuery, values)
+    cnx.commit()
+    cnx.close()
+  except mysql.connector.Error as e:
+    writeErrorLog(e)
+    
 def updateHashtagTotals(tag):
   cnx = databaseConnect()
   cursor = cnx.cursor()
   tweetQuery = ("UPDATE hashtags SET "
                 "total = total + 1 "
                 "WHERE tags = \'" + tag + "\'")
-  cursor.execute(tweetQuery)
-  cnx.commit()
-  cnx.close()
-
+  try:
+    cursor.execute(tweetQuery)
+    cnx.commit()
+    cnx.close()
+  except mysql.connector.Error as e:
+    writeErrorLog(e)
+    
 def checkForEnglish(tweetJSON):
   if tweetJSON['lang'] == "en":
     return True
@@ -152,7 +129,8 @@ def processHashtagData(tweetJSON):
   else:
     for x in range(0, numHashtags):
       tag = tweetJSON['entities']['hashtags'][x]['text'].lower()
-      if checkDatabaseForHashtag(tag) == 0:
+      selectQuery = "SELECT id FROM hashtags WHERE tags = \'" + tag + "\'"
+      if checkDatabaseForItem(selectQuery) == 0:
         loadHashtagIntoDatabase(tag)
       else:
         updateHashtagTotals(tag)
