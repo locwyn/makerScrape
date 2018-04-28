@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 import json
 import datetime
 import mysql.connector
@@ -146,7 +146,11 @@ def writeErrorLog(e):
     with open(errorFile, 'a') as f:
       f.write("Unable to write error")
         
-def runTests(fileName):
+if __name__ == "__main__":
+  filePath = '/home/gbk/data/makerScrape/'
+  previousDate = datetime.today() - timedelta(days=1)
+  fileName = filePath + previousDate.strftime('%Y_%m_%d') 
+             + '_maker.json'
   with open(fileName) as f:
     tweets = f.readlines()
   for y in tweets:
@@ -158,8 +162,3 @@ def runTests(fileName):
         loadTweetIntoDatabase(tweetJSON)
         loadUserIntoDatabase(tweetJSON)
         processHashtagData(tweetJSON)
-
-#print(checkDatabaseForHashtag('minis'))
-filePath = '/home/gbk/data/makerScrape/'
-fileName = filePath + '2018_04_25_maker.json'
-runTests(fileName)
