@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import json
 import datetime
+from datetime import timedelta
 import mysql.connector
 from credentials import *
 
@@ -137,8 +138,8 @@ def processHashtagData(tweetJSON):
 
 def writeErrorLog(e):
   filePath = '/home/gbk/data/makerScrape/logs/'
-  errorFile = filePath + datetime.datetime.now().strftime('%Y_%m_%d') + 
-              '_error.log'
+  errorFile = (filePath + datetime.datetime.now().strftime('%Y_%m_%d') + 
+              '_error.log')
   try:
     with open(errorFile, 'a') as f:
       f.write(str(e))
@@ -148,9 +149,9 @@ def writeErrorLog(e):
         
 if __name__ == "__main__":
   filePath = '/home/gbk/data/makerScrape/'
-  previousDate = datetime.today() - timedelta(days=1)
-  fileName = filePath + previousDate.strftime('%Y_%m_%d') 
-             + '_maker.json'
+  previousDate = datetime.datetime.now() - timedelta(days=1)
+  fileName = (filePath + previousDate.strftime('%Y_%m_%d') 
+             + '_maker.json')
   with open(fileName) as f:
     tweets = f.readlines()
   for y in tweets:
