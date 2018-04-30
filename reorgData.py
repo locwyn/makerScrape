@@ -33,3 +33,10 @@ def writeErrorLog(e):
       f.write("Unable to write error")
         
 if __name__ == "__main__":
+  selectAllTweets = "SELECT id, tweetID FROM tweets"
+  cnx = databaseConnect()
+  cursor = cnx.cursor()
+  cursor.execute(selectAllTweets)
+  for i in cursor:
+    print(i)
+  cnx.close()
