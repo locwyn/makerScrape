@@ -22,8 +22,8 @@ def checkDatabaseForItem(selectQuery):
   return results
 
 def writeErrorLog(e):
-  filePath = '/home/gbk/data/makerScrape/logs/'
-  errorFile = (filePath + datetime.datetime.now().strftime('%Y_%m_%d') + 
+#  filePath = '/home/gbk/data/makerScrape/logs/'
+  errorFile = (datetime.datetime.now().strftime('%Y_%m_%d') + 
               '_reorg_error.log')
   try:
     with open(errorFile, 'a') as f:
@@ -31,12 +31,17 @@ def writeErrorLog(e):
   except BaseException as e:
     with open(errorFile, 'a') as f:
       f.write("Unable to write error")
-        
+
+#def findDuplicates(cursor):
+  
+
 if __name__ == "__main__":
+  allTweets = []
   selectAllTweets = "SELECT id, tweetID FROM tweets"
   cnx = databaseConnect()
   cursor = cnx.cursor()
   cursor.execute(selectAllTweets)
   for i in cursor:
-    print(i)
+    allTweets.append(i)
   cnx.close()
+  print allTweets
