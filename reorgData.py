@@ -32,7 +32,10 @@ def writeErrorLog(e):
     with open(errorFile, 'a') as f:
       f.write("Unable to write error")
 
-#def findDuplicates(cursor):
+def findDuplicates(allTweets):
+  while len(allTweets) > 0:
+    allTweets.pop(0)
+    print(len(allTweets))
   
 
 if __name__ == "__main__":
