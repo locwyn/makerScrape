@@ -34,17 +34,28 @@ def writeErrorLog(e):
 
 def findDuplicates(allTweets):
   while len(allTweets) > 0:
-    allTweets.pop(0)
-    print(len(allTweets))
+    searchValue = allTweets.pop(0)
+    searchForAllDuplicates(searchValue, allTweets)
   
+def searchForAllDuplicates(searchValue, allTweets):
+  duplicatesIndex = []
+  for x in range(0, len(allTweets)):
+    print(searchValue[1], " == ", allTweets[x][1])
+    if searchValue[1] == allTweets[x][1]:
+      duplicatesIndex.append(x)
+  if len(duplicatesIndex) > 0:
+    print(duplicatesIndex)
+
+#merge sort the tweet/user ids, then check for duplicates
+#may run faster since my data will keep increasing
 
 if __name__ == "__main__":
   allTweets = []
-  selectAllTweets = "SELECT id, tweetID FROM tweets"
+  selectAllTweets = "SELECT id, user_id FROM makers"
   cnx = databaseConnect()
   cursor = cnx.cursor()
   cursor.execute(selectAllTweets)
   for i in cursor:
     allTweets.append(i)
   cnx.close()
-  print allTweets
+  findDuplicates(allTweets)
