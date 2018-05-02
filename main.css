@@ -1,0 +1,17 @@
+body {
+	background-color: black;
+}
+
+h2 {
+	color: #f3f344;
+}
+
+#header {
+	background-color: #3B3933;
+	margin: 20px;
+	padding: 5px;
+}
+
+.lightText {
+	color: #BBB2A1;
+}
