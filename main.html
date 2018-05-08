@@ -18,6 +18,16 @@
       return t;
       }(document, "script", "twitter-wjs"));
       
+      //Factor Function for Creating a Tweet
+      function createTweetEmbed(tweetID, divID) {
+        twttr.widgets.createTweet(
+          tweetID,
+          document.getElementById(divID),
+          {
+             theme: 'light'
+          });
+      }
+      
       //Embed the Tweets
       window.onload = function () {
         twttr.widgets.createTweet(
@@ -34,7 +44,9 @@
   {
     theme: 'light'
   }
-);};
+);
+      createTweetEmbed('991455270441189376', 'third-tweet');
+      };
     </script>
     <title>locwyn.com</title>
   </head>
@@ -45,6 +57,8 @@
       <div id="first-tweet">
       </div>
       <div id="second-tweet">
+      </div>
+      <div id="third-tweet">
       </div>
 <!--      <blockquote class="twitter-tweet" data-lang="en"><p lang="und" dir="ltr"><a href="https://t.co/6QejQTvpov">pic.twitter.com/6QejQTvpov</a></p>&mdash; Amy TOKURAINBOW PINK🏳️‍🌈 🎂 18 DAYS (@pitzx2) <a href="https://twitter.com/pitzx2/status/992565970358165504?ref_src=twsrc%5Etfw">May 5, 2018</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
