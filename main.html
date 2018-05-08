@@ -39,7 +39,8 @@
       <p class="lightText">This is the Maker Tweets Page!</p>
       <div id="first-tweet">
       </div>
-      <script>
+      <script type="text/javascript">
+        window.onload = function () {
         twttr.widgets.createTweet(
   '991453594607120384',
   document.getElementById('first-tweet'),
@@ -48,7 +49,7 @@
   }
 ).then( function( el ) {
   console.log('Tweet added.');
-});
+})};
       </script>
 <!--      <blockquote class="twitter-tweet" data-lang="en"><p lang="und" dir="ltr"><a href="https://t.co/6QejQTvpov">pic.twitter.com/6QejQTvpov</a></p>&mdash; Amy TOKURAINBOW PINK🏳️‍🌈 🎂 18 DAYS (@pitzx2) <a href="https://twitter.com/pitzx2/status/992565970358165504?ref_src=twsrc%5Etfw">May 5, 2018</a></blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
