@@ -18,7 +18,7 @@
       return t;
       }(document, "script", "twitter-wjs"));
       
-      //Factor Function for Creating a Tweet
+      //Factory Function for Creating a Tweet
       function createTweetEmbed(tweetID, divID) {
         twttr.widgets.createTweet(
           tweetID,
@@ -30,22 +30,9 @@
       
       //Embed the Tweets
       window.onload = function () {
-        twttr.widgets.createTweet(
-  '991453594607120384',
-  document.getElementById('first-tweet'),
-  {
-    theme: 'dark'
-  }
-);
-      
-        twttr.widgets.createTweet(
-  '991462340812980224',
-  document.getElementById('second-tweet'),
-  {
-    theme: 'light'
-  }
-);
-      createTweetEmbed('991455270441189376', 'third-tweet');
+        createTweetEmbed('991453594607120384', 'first-tweet');
+        createTweetEmbed('991462340812980224', 'second-tweet');
+        createTweetEmbed('991455270441189376', 'third-tweet');
       };
     </script>
     <title>locwyn.com</title>
