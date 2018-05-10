@@ -2,9 +2,9 @@ var credentials = require('./credentials');
 var mysql = require('mysql');
 
 var con = mysql.createConnection({
-  host: credentials.dbHost,
-  user: credentials.dbUser,
-  password: credentials.dbPassword
+  host: credentials.dbHost(),
+  user: credentials.dbUser(),
+  password: credentials.dbPassword()
 });
 
 con.connect(function(err) {
