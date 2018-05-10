@@ -2,3 +2,5 @@ credentials.py
 credentials.pyc
 emailInfo.py
 emailInfo.pyc
+credentials.js
+node_modules/
