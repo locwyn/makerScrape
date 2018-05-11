@@ -5,14 +5,15 @@ var con = mysql.createConnection({
   host: credentials.dbHost,
   user: credentials.dbUser,
   password: credentials.dbPassword,
-  database: "makerTweets"
+//  database: "makerTweets"
 });
 
 con.connect(function(err) {
-  if (err) throw err;
-  con.query("SELECT TOP 10 tweetID FROM tweets ORDER BY id DESC",
-            function (err, results, fields) {
-    if (err) throw err;
-    console.log(result);
-  });
+    console.log(typeof(err));
+//  if (err) throw err;
+//  con.query("SELECT tweetID FROM tweets ORDER BY id DESC LIMIT 10",
+//            function (err, result, fields) {
+  //  if (err) throw err;
+    console.log("Success!");
+//  });
 });
