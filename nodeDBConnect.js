@@ -2,17 +2,28 @@
 var credentials = require('./credentials');
 var mysql = require('mysql');
 
+//var con = mysql.createConnection({
+//  host: credentials.dbHost,
+//  user: credentials.dbUser,
+//  password: credentials.dbPassword,
+//  database: "makerTweets"
+//});
+
 var con = mysql.createConnection({
   host: credentials.dbHost,
-  user: credentials.dbUser,
-  password: credentials.dbPassword,
-  database: "makerTweets"
+  user: credentials.dbHost,
+  password: credentials.dbPassword
 });
 
 con.connect(function(err) {
-  if (err) console.log(typeof(err));
-  console.log("Success!");
-}); 
+  if (err) throw err;
+  console.log("Connected!");
+});
+
+//con.connect(function(err) {
+//  if (err) console.log(typeof(err));
+//  console.log("Success!");
+//}); 
 
 //console.log("Success!");
 
