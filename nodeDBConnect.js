@@ -2,34 +2,31 @@
 var credentials = require('./credentials');
 var mysql = require('mysql');
 
-//var con = mysql.createConnection({
-//  host: credentials.dbHost,
-//  user: credentials.dbUser,
-//  password: credentials.dbPassword,
-//  database: "makerTweets"
-//});
-
 var con = mysql.createConnection({
   host: credentials.dbHost,
-  user: credentials.dbHost,
-  password: credentials.dbPassword
-});
-
-con.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!");
+  user: credentials.dbUser,
+  password: credentials.dbPassword,
+  database: "makerTweets"
 });
 
 //con.connect(function(err) {
-//  if (err) console.log(typeof(err));
-//  console.log("Success!");
-//}); 
+//  if (err) throw err;
+//  console.log("Connected!");
+//});
 
-//console.log("Success!");
+con.connect(function(err) {
+  if (err) throw err;
+  con.query("SELECT * FROM hashtags", function (err, result, fields) {
+    if (err) throw err;
+    console.log(result);
+  });
+});
 
 //con.end(function(err) {
-//  if (err) console.log("End broke!");
+//  if (err) throw err;
 //  console.log("Ended!");
 //});
 
-//console.log("Ended!");
+
+
+
