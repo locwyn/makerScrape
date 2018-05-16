@@ -16,7 +16,7 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  con.query("SELECT * FROM hashtags", function (err, result, fields) {
+  con.query("SELECT tweetID FROM tweets ORDER BY id DESC LIMIT 10", function (err, result, fields) {
     if (err) throw err;
     console.log(result);
   });
